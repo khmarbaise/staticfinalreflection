@@ -25,12 +25,14 @@ public class Reflection4All {
     System.out.println("Modified value: " + myClass.finalMember);
 
   }
+
   private static void modifyFinalMember(Object obj,String fieldName, int newValue) throws Exception {
-    Field field = TestClass.class.getDeclaredField(fieldName);
+    Field[] declaredFields = TestClass.class.getDeclaredFields();
+    Field field = Arrays.stream(declaredFields).filter(f -> f.getName().endsWith(fieldName))
+        .findFirst()
+        .orElseThrow(() -> new IllegalStateException("Field " + fieldName + " not found"));
+
     field.setAccessible(true);
-    Field modifiersField = Field.class.getDeclaredField(fieldName);
-    modifiersField.setAccessible(true);
-    modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
     field.set(obj, newValue);
   }
 }
