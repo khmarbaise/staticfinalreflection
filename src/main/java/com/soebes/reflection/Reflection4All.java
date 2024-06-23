@@ -1,7 +1,6 @@
 package com.soebes.reflection;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
 public class Reflection4All {
