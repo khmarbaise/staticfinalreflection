@@ -21,8 +21,13 @@ class ClassWithFinalAttributesTest {
     Field[] declaredFields = classWithFinalAttributes.getClass().getDeclaredFields();
     System.out.println("declaredFields = " + Arrays.toString(declaredFields));
 
-    declaredFields[0].setAccessible(true);
-    declaredFields[0].set("String", "AnotherName");
+    Field fieldForName = Arrays.stream(classWithFinalAttributes.getClass().getDeclaredFields())
+        .filter(f -> f.getName().equals("name"))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException("Field name could not be found"));
+
+    fieldForName.setAccessible(true);
+    fieldForName.set(classWithFinalAttributes, "AnotherName");
     System.out.println("classWithStaticFinalAttributes = " + classWithFinalAttributes);
   }
 }

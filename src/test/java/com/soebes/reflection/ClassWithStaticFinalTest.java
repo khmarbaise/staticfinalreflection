@@ -16,16 +16,16 @@ class ClassWithStaticFinalTest {
 
   @Test
   void changeViaReflection() throws IllegalAccessException {
-    ClassWithStaticFinal ClassWithStaticFinal = new ClassWithStaticFinal("name", "sureName");
-    System.out.println("ClassWithStaticFinal = " + ClassWithStaticFinal);
+    ClassWithStaticFinal classWithStaticFinal = new ClassWithStaticFinal("name", "sureName");
+    System.out.println("ClassWithStaticFinal = " + classWithStaticFinal);
 
-    Field[] declaredFields = ClassWithStaticFinal.getClass().getDeclaredFields();
+    Field[] declaredFields = classWithStaticFinal.getClass().getDeclaredFields();
     System.out.println("declaredFields = " + Arrays.toString(declaredFields));
 
     Field thisIsValueField = Arrays.stream(declaredFields).filter(f -> f.getName().equals("THIS_IS_VALUE"))
         .findFirst().orElseThrow(() -> new IllegalStateException("Field THIS_IS_VALUE not found"));
     thisIsValueField.setAccessible(true);
-    thisIsValueField.set("String", "AnotherNameVALUE");
-    System.out.println("classWithStaticFinalAttributes = " + ClassWithStaticFinal);
+    thisIsValueField.set(classWithStaticFinal, "AnotherNameVALUE");
+    System.out.println("classWithStaticFinalAttributes = " + classWithStaticFinal);
   }
 }
