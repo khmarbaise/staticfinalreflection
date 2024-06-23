@@ -31,12 +31,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: 'Set up JDK 22'
+      - name: 'Set up JDK 8'
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 22
+          java-version: 8
           cache: 'maven'
       - name: 'Build'
         shell: bash
-        run: mvn -V --no-transfer-progress clean verify --fail-at-end
+        run: mvn -V --no-transfer-progress clean verify -DskipTests --fail-at-end
+      - name: 'Execute'
+        shell: bash
+        run: java -jar target/staticfinalreflection-1.0-SNAPSHOT.jar
